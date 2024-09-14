@@ -1,25 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, Image, View } from 'react-native';
 
-export default function UserGroupCard({ group_name, description, created_at, picture_url, upcomingRun }) {
-  // Convert the created_at string into a Date object
-  const date = new Date(created_at);
+export default function UserGroupCard({ group_id, group_name, description, created_at, picture_url, upcomingRun, navigation, user_joined_group }) {
 
-  // Format the date
-  const formattedDate = date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const handlePress = () => {
+    // Navigate to SingleGroup with the group_id
+    navigation.navigate('SingleGroup', { group_id, user_joined_group });
+  };
 
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity onPress={handlePress} style={styles.card}>
       <View style={styles.content}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>{group_name}</Text>
           <Text style={styles.description}>Bio: {description}</Text>
           <Text style={styles.description}>Next Run: {upcomingRun}</Text>
-          <Text style={styles.description}>Active since: {formattedDate}</Text>
+          <Text style={styles.description}>Active since: {created_at}</Text>
         </View>
         {picture_url ? (
           <Image 
@@ -44,6 +40,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     flexDirection: 'row', 
     alignItems: 'center',
+    borderRadius: 12,
   },
   content: {
     flexDirection: 'row', 

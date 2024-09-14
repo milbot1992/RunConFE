@@ -2,97 +2,107 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen, MyAccount, Groups, MessagesHome, MyRuns } from './index'
 import Icon from 'react-native-ico-material-design';
-import { useState, useEffect} from 'react'
-import { getGroupPosts } from '../../api'
+import { useState, useEffect } from 'react';
+import { getGroupPosts } from '../../api';
 
 const Tab = createBottomTabNavigator();
 
-export default function NavigationBar({route}) {
+export default function NavigationBar({ route }) {
     const { user_id } = route.params;
     const [groupPosts, setGroupPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         getGroupPosts(user_id)
-        .then(( posts ) => {
+        .then((posts) => {
             setGroupPosts(posts);
             setTimeout(() => {
-                setIsLoading(false)
+                setIsLoading(false);
             }, 1000);
         })
         .catch(error => {
             console.error("Error fetching group posts:", error);
             setIsLoading(false);
         });
-    }, []);
+    }, [user_id]);
     
     return (
         <>
-        {isLoading ? (
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F2F2F2' }}>
+            {isLoading ? (
+                <View style={styles.loadingContainer}>
                     <Text>Loading...</Text>
-                  </View>
-                ) : (
-                <Tab.Navigator initialRouteName='Home' 
+                </View>
+            ) : (
+                <Tab.Navigator 
+                    initialRouteName='Home' 
                     screenOptions={{
-                    tabBarActiveTintColor: '#0f98e1',
-                }}>
-                <Tab.Screen name="Home" 
-                    component={HomeScreen}
-                    options={{
-                        tabBarLabel: () => null,
-                        tabBarIcon: () => (
-                        <Icon name="home-button" color='#66B2B2' />
-                        ),
+                        tabBarActiveTintColor: '#66B2B2',
+                        tabBarLabelStyle: { fontSize: 12, marginBottom: 5 }, // Style for tab labels
                     }}
-                    initialParams={{ groupPosts }}
+                >
+                    <Tab.Screen 
+                        name="Home" 
+                        component={HomeScreen}
+                        options={{
+                            tabBarLabel: 'Home',
+                            tabBarIcon: ({ color }) => (
+                                <Icon name="home-button" color={color} />
+                            ),
+                        }}
+                        initialParams={{ groupPosts }}
                     /> 
-                <Tab.Screen name="Groups" 
-                    component={Groups} 
-                    options={{
-                        tabBarLabel: () => null,
-                        tabBarIcon: () => (
-                        <Icon name="two-men" color='#66B2B2' />
-                        ),
-                    }} 
-                    initialParams={{ user_id }}
+                    <Tab.Screen 
+                        name="Groups" 
+                        component={Groups} 
+                        options={{
+                            tabBarLabel: 'Groups',
+                            tabBarIcon: ({ color }) => (
+                                <Icon name="two-men" color={color} />
+                            ),
+                        }} 
+                        initialParams={{ user_id }}
                     />
-                <Tab.Screen name="MessagesHome" 
-                    component={MessagesHome} 
-                    options={{
-                        tabBarLabel: () => null,
-                        tabBarIcon: () => (
-                        <Icon name="chat-bubble" color='#66B2B2' />
-                        ),
-                    }} />
-                <Tab.Screen name="MyRuns" 
-                    component={MyRuns} 
-                    options={{
-                        tabBarLabel: () => null,
-                        tabBarIcon: () => (
-                        <Icon name="man-walking-directions-button" color='#66B2B2' />
-                        ),
-                    }} />
-                <Tab.Screen name="MyAccount" 
-                    component={MyAccount} 
-                    options={{
-                        tabBarLabel: () => null,
-                        tabBarIcon: () => (
-                        <Icon name="user-shape" color='#66B2B2' />
-                        ),
-                    }} />
-
+                    <Tab.Screen 
+                        name="Messages" 
+                        component={MessagesHome} 
+                        options={{
+                            tabBarLabel: 'Messages',
+                            tabBarIcon: ({ color }) => (
+                                <Icon name="chat-bubble" color={color} />
+                            ),
+                        }} 
+                    />
+                    <Tab.Screen 
+                        name="Runs" 
+                        component={MyRuns} 
+                        options={{
+                            tabBarLabel: 'Runs',
+                            tabBarIcon: ({ color }) => (
+                                <Icon name="man-walking-directions-button" color={color} />
+                            ),
+                        }} 
+                    />
+                    <Tab.Screen 
+                        name="Profile" 
+                        component={MyAccount} 
+                        options={{
+                            tabBarLabel: 'You',
+                            tabBarIcon: ({ color }) => (
+                                <Icon name="user-shape" color={color} />
+                            ),
+                        }} 
+                    />
                 </Tab.Navigator>
-                )}
+            )}
         </>
     );
 }
 
-
 const styles = StyleSheet.create({
     loadingContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F2F2F2',
     },
-  });
+});

@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import UserGroupCard from './UserGroupCard';
 import { getUpcomingRunForGroup } from '../../../api';
 
-export default function UserGroups({ userGroups }) {
+export default function UserGroups({ userGroups, navigation }) {
   const [upcomingRun, setUpcomingRun] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,8 +42,10 @@ export default function UserGroups({ userGroups }) {
             group_name={group.group_name}
             description={group.description}
             created_at={group.created_at}
+            user_joined_group={group.user_joined_group}
             picture_url={group.picture_url}
             upcomingRun={upcomingRun[group.group_id]}
+            navigation={navigation}
         />
       ))}
     </ScrollView>

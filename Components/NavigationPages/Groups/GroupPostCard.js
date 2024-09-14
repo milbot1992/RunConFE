@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Image, View, Modal, TouchableHighlight } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function GroupPostCard({title, description, created_at, picture_url, username, group_name, user_url}) {
+export default function GroupPostCard({title, description, created_at, picture_url, username, group_name, user_url, group_id}) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigation = useNavigation(); // Get navigation prop
 
   // Convert the created_at string into a Date object
   const date = new Date(created_at);
@@ -23,7 +25,11 @@ export default function GroupPostCard({title, description, created_at, picture_u
         />
         <View style={styles.headerText}>
           <Text style={styles.username}>{username}</Text>
-          <Text style={styles.groupName}>{group_name}</Text>
+          
+          <TouchableOpacity onPress={() => navigation.navigate('SingleGroup', { group_id })}>
+            <Text style={styles.groupName}>{group_name}</Text>
+          </TouchableOpacity>
+          
         </View>
       </View>
       <View style={styles.content}>
@@ -121,7 +127,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 1)',  // Full black background
+    backgroundColor: 'rgba(0, 0, 0, 0.8)', 
   },
   modalImage: {
     width: '100%',
@@ -130,15 +136,19 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 5,
-    right: 0,
-    backgroundColor: 'black',
-    borderRadius: 20,
-    padding: 20,
+    top: 20,
+    right: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',  
+    borderRadius: 25,
+    padding: 10,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   closeButtonText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: 'bold',
-    color: '#BEBEBE',
+    color: '#FFFFFF',
   },
 });

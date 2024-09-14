@@ -26,9 +26,9 @@ export default function MapTab({ navigation }) {
       </View>
     );
   }
-//need to amend once have done single group page
-  function handleMarkerPress(groupId) {
-    navigation.navigate('Single Group', { groupId });
+
+  function handleMarkerPress(group_id) {
+    navigation.navigate('SingleGroup', { group_id });
   }
 
   return (

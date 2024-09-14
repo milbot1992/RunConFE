@@ -15,6 +15,7 @@ export default function GroupPosts({ groupPosts }) {
           picture_url={post.picture_url}
           username={post.username}
           group_name={post.group_name}
+          group_id={post.group_id}
           user_url={post.user_url}
         />
       ))}
