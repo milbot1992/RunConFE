@@ -1,8 +1,9 @@
 RunCon Frontend Mobile App
 ==========================
 
-This repository contains the React Native front-end for the RunCon mobile application.
-The app provides a user-friendly interface to interact with the [RunCon Backend](https://github.com/milbot1992/RunConBE), facilitating features like group runs, user posts, messaging, and profile management.
+The RunCon Frontend Mobile App is a sleek, cross-platform mobile application built with React Native, providing an engaging interface for users to interact with the RunCon ecosystem. From discovering group runs to connecting with other runners via posts and messaging, the app empowers users with an intuitive and dynamic platform.
+Backend Repository: https://github.com/milbot1992/RunConBE
+
 
 Features
 --------
